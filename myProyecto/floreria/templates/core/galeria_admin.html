@@ -1,0 +1,145 @@
+ <!--SE TOMA UNA BASE Y SE EXTIENDE A LA PAGINA ACTUAL-->
+{% extends "core/base_admin.html" %}
+
+{% block titulo %}
+Galeria - Floreria
+{% endblock titulo %}
+
+ <!--SE CARGAN LOS ARCHIVOS ESTATICOS A LA PAGINA ACTUAL-->
+{% load static %}
+{% block contenido %}
+
+<div class="container">
+    <div class="jumbotron" style="background-color: rgb(248, 227, 227);">
+        <h3><em>Floreria Petalos</em></h3>
+        <p><em>Regala cariño, con Florería Pétalos</em></p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div id="mdb-lightbox-ui"></div>
+
+            <div class="mdb-lightbox no-margin">
+                <!--SE INGRESA A UN CICLO FOR PARA QUE RECORRA UNA POR UNA LAS FLORES INGRESADAS A TRAVEZ DEL FORMULARIO-->
+                {% for f in listaFlores %}
+                <!--SE MUESTRA LA IMAGEN Y NOMBRE DE LAS FLORES UNA POR UNA SEGUN LO QUE SE INGRESO EN EL FORMULARIO-->
+                <a class="black-text" href="#">
+                    <figure class="figure">
+                        <img alt="Responsive image" src="{{ f.imagen.url }}" width="367" height="270" class="rounded-lg"
+                            data-toggle="modal" data-target="#{{ f.name }}" data-id="{{ f.name }}" />
+                        <h3 class="text-center my-3">{{f.name}}</h3>
+                </a>
+                <!--SE PREGUNTA POR EL ESTADO DE LA FLOR,Y SE MUESTRA EN PANTALLA EL ALERTA CORRESPONDIENTE A CADA ESTADO DE ESTAS-->
+                {% if f.estado == "D" %}
+
+                <div class="alert alert-success" role="alert">
+                    Producto Disponible
+                </div>
+
+                {% endif %}
+
+                {% if f.estado == "N" %}
+
+                <div class="alert alert-danger" role="alert">
+                    Producto no Disponible
+                </div>
+
+                {% endif %}
+                </figure>
+
+                <!-- Modal -->
+                <!--PRIMER MODAL PARA QUE AL ABRIR LA IMAGEN APAREZCA LA INFORMACION CORRESPONDIENTE DEL PRODUCTO EN UN RECUADRO A PARTE-->
+                <div class="modal fade" id="{{ f.name }}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <!--CONTENIDO DEL MODAL-->
+                        <div class="modal-content">
+                            <!--CABECERA DEL MODAL-->
+                            <div class="modal-header">
+
+                            </div>
+                            <!--CUERPO DEL MODAL-->
+                            <div class="modal-body">
+                                <!--SEGUN LA IMAGEN QUE SE MUESTRE SE DESPLIGA AL ABRIR ESTA UN LISTADO CON TODOS SUS ATRIBUTOS CORRESPONDIENTES-->
+                                <img alt="Responsive image" src="{{ f.imagen.url }}" width="465" height="250"
+                                    class="rounded-lg" />
+                                <hr>
+                                <p>Nombre: {{f.name}} </p>
+                                <p>Valor: ${{f.valor}}</p>
+                                <p>Descripcion: {{f.descripcion}}</p>
+                                <!--SE PREGUNRA POR EL ESTADO DE CADA FLOR PARA ASI MOSTRAR EL SIGNIFICADO COMPLETO DE LA LETRA INGRESADA EN EL FORMULARIO-->
+                                {% if f.estado == "D" %}
+
+                                <p>Estado: Disponible</p>
+
+                                {% endif %}
+
+                                {% if f.estado == "N" %}
+
+                                <p>Estado: No Disponible</p>
+
+                                {% endif %}
+                                <p>Stock: {{f.stock}}</p>
+
+
+                            </div>
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-outline-primary"
+                                    data-dismiss="modal">Cerrar</button>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-outline-danger" data-toggle="modal"
+                                    data-target="#exampleModal2">
+                                    Eliminar
+                                </button>
+
+                                <!--SEGUNDO MODAL PARA ELIMINAR PRODUCTO-->
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Está seguro?</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Usted está por eliminar {{f.name}} de la Galeria
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-primary"
+                                                    data-dismiss="modal">Volver</button>
+                                                    <a href="{% url 'eliminar' f.name %}" role="button"
+                                                    class="btn btn-outline-danger">Eliminar</a>
+                                            </div>
+                                            
+                                         </a>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock contenido %}

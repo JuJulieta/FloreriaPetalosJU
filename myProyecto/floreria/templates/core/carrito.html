@@ -1,0 +1,105 @@
+{% extends "core/base_usu.html" %}
+
+{% block titulo %}
+   Carrito de Compras - Floreria
+{% endblock titulo %}
+
+ <!--SE CARGAN LOS ARCHIVOS ESTATICOS A LA PAGINA ACTUAL-->
+{% load static %}
+{% block contenido %}
+
+<div class="container">
+    <div class="jumbotron" style="background-color: rgb(248, 227, 227);">
+        <h3><em>Floreria Petalos</em></h3>
+        <h2><em> Listado de Productos en Carrito </em></h2>
+    </div>
+</div>
+
+<!--  Como visualisar las cantidades y total(es)-->
+
+<div class="container">
+    <form class="needs-validation" id="formulario" action="" method="POST" enctype="multipart/form-data" novalidate >
+        {% csrf_token %}
+
+              
+           <center>
+          {% for l in x %}
+          
+
+            <div class="card" style="width: 18rem;">
+            <!--<img src="{{ l.img }}" class="card-img-top" alt="...">
+
+            <img alt="Responsive image" src="{{ l.img.url }}" width="367" height="270" class="rounded-lg"
+             data-toggle="modal" data-target="#{{ l.nombre }}" data-id="{{ l.nombre }}" />
+            -->
+                    <div class="card-body">
+                    <h5 class="card-title">{{l.nombre}}</h5>
+                    <p class="card-text">Valor : $ {{l.valor}} </p>
+
+                    {% if  l.cantidad == '0' %}
+                    <div class="alert alert-danger" role="alert"> Ya no hay más Productos </div>
+                    <p class="card-text" >Cantidad : $ 0 </p>
+                    <p class="card-text" >TOTAL : $ 0 </p>
+                    <input type="button" value="+" onclick="javascript:location.href='{% url 'CARRO_MAS' l.nombre %}'"  >
+                    {% else %}
+                    <p class="card-text" >Cantidad : {{l.cantidad}} </p>
+                    <p class="card-text" >TOTAL : $ {{l.total}} </p>
+                    <input type="button" value="+" onclick="javascript:location.href='{% url 'CARRO_MAS' l.nombre %}'"  >
+                    <input type="button" value="-" onclick="javascript:location.href='{% url 'CARRO_MENOS' l.nombre %}'" >
+                    {% endif %}          
+                    </div>
+            </div>
+            <br>        
+            {% endfor %}
+
+                      
+               <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">Total Productos</h5>
+                    <h5 class="card-title"> $ {{total}}</h5>
+                    <a href="{% url 'GRABAR_CARRO' %}" role="button" class="btn btn-primary">Finalizar Compra</a> 
+                    </div>
+               </div>
+                <br>
+                    <a href="{% url 'VACIAR' %}" role="button" class="btn btn-primary" >Vaciar Carrito</a>
+                
+        
+            <div class="form-group">
+                <div class="form-check">
+                    <!--CHECKBOX QUE DECLARA ESTAR DE ACUERDO CON TERMINOS-->
+                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck"> Estoy de acuerdo con los terminos y condiciones </label>
+                    <div class="invalid-feedback"> Debes estar de acuerdo con los terminos y condiciones. </div>
+                </div>
+            </div>
+        {{mensaje}}
+        </center>
+        
+       
+    </form>
+
+        <!--METODO DE VALIDACION ATRAVEZ DE JAVASCRIPT-->
+        <script>
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    var forms = document.getElementsByClassName('needs-validation');
+                    //LOOP PARA NO PODER ENVIAR LA INFORMACION HASTA QUE ESTA ESTÉ CORRECTA
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+
+</div>
+
+
+
+{% endblock contenido %}
