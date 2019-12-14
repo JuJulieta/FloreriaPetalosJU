@@ -50,7 +50,7 @@
 
 
         <div class="container">
-                <h1>Login Administrador</h1>
+                <h1>Login Principal</h1>
                 
                 <form name="formulario" class="needs-validation" id="formulario" action="{% url 'login_inicio' %}" method="POST"
                     enctype="multipart/form-data" novalidate>
@@ -75,6 +75,7 @@
                             </div>
                         </div>
                     </div>
+                    <a href="{% url 'social:begin' 'facebook' %}"> Iniciar sesion con Facebook </a>
             
                     <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
                     <p><a href="{% url 'registro' %}" class="text-muted">¿No posee una cuenta? Haga click aqui para registrarse</a></p>
@@ -102,6 +103,7 @@
             </script>
                 
             </div>
+            
         {% endblock contenido %}
     </section>
 

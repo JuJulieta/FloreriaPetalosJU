@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'floreria.apps.FloreriaConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'myProyecto.urls'
@@ -63,6 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',  #-->facebook
+                'social.apps.django_app.context_processors.login_redirect',  # -->facebook
             ],
         },
     },
@@ -122,3 +126,16 @@ STATIC_URL = '/static/'
 
 MEDIA_URL= '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#DEFINICION DE LOS MODELOS INTERNOS DE AUTENTICACION
+AUTHENTICATION_BACKENDS=(
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+#DIRECCION URL AL MOMENTO DE LOGEARCE
+SOCIAL_AUTH_LOGIN_REDIRECT_URL='/'
+
+#CLAVES DE LA APLICACION FACEBOOK
+SOCIAL_AUTH_FACEBOOK_KEY='2637426526333226'
+SOCIAL_AUTH_FACEBOOK_SECRET='abb9332215b608933120ec08527e88ad'
