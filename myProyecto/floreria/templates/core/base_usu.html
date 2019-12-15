@@ -59,17 +59,17 @@
                         <a class="nav-link" href="{% url 'CARRITO' %}">Carrito de Compras<span
                                 class="sr-only">(current)</span></a>
                     </li>
-                    <li>
-                        <b> Bienvenido {{ user.username }} </b>
-                    </li>
-                   
+
                 </ul>
 
             </div>
 
         </nav>
         <div class="text-right">
-            <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+            
+            <b> Bienvenido {{ user.username }} </b>
+            
+            
             <!--MODAL PARA CERRAR LA SESION A TRAVEZ DE PREGUNTA-->
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal1">

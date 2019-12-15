@@ -32,28 +32,36 @@ def login(request):
     if request.POST:
         u=request.POST.get("txtUsuario")
         c=request.POST.get("txtPass")
+                
         us=authenticate(request,username=u,password=c)
-        msg=''
         request.session["carrito"] = []        
-        request.session["carritox"] = []        
+        request.session["carritox"] = []
+        msg=''
         print('realizado')
-        if us is not None and us.is_active and usu.is_staff:
+        if us is not None and us.is_active and us.is_staff:
             request.session["carrito"] = []        
             request.session["carritox"] = []  
             auth_login(request, us)
             arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
             return render(request,'core/home_admin.html',arreglo)
-        if usu is not None and usu.is_active:
+        if us is not None and us.is_active:
             request.session["carrito"] = []        
             request.session["carritox"] = []  
-            auth_login(request,usu)
+            auth_login(request,us)
             arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
             return render(request,'core/home_usu.html',arreglo)
+        if us.is_active:
+            request.session["carrito"] = []        
+            request.session["carritox"] = []  
+            auth_login(request,us)
+            arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
+            return render(request,'core/home_usu.html',arreglo)
+
     return render(request,'core/login.html')
 
 @login_required(login_url='/login/')
 def carrito(request):
-    x=request.session["carritox"]
+    x=request.session.get("carritox","")
     suma=0
     for item in x:
         suma=suma+int(item["total"])           
@@ -87,12 +95,10 @@ def grabar_carro(request):
         mensaje="error al grabar"            
     return render(request,'core/carrito.html',{'x':x,'total':suma,'mensaje':mensaje})
 
-
-
 @login_required(login_url='/login/')
 def agregar_carro(request,id):
     f=Flores.objects.get(name=id)
-    x=request.session["carritox"]
+    x=request.session.get("carritox","")
     el=elemento(1,f.name,f.valor,1)
     sw=0
     suma=0
@@ -202,24 +208,31 @@ def login_inicio(request):
     if request.POST:
         u=request.POST.get("txtUsuario")
         c=request.POST.get("txtPassword")
+         
         #VALIDACION DEL USUARIO
-        usu=authenticate(request,username=u,password=c)
-        request.session["carrito"] = []        
-        request.session["carritox"] = []  
+        us=authenticate(request,username=u,password=c)
+        
         msg=''
-        if usu is not None and usu.is_active and usu.is_staff:
+        request.session["carrito"] = []        
+        request.session["carritox"] = [] 
+        if us is not None and us.is_active and us.is_staff:
             request.session["carrito"] = []        
             request.session["carritox"] = []  
             auth_login(request,usu)
             arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
             return render(request,'core/home_admin.html',arreglo)
-        if usu is not None and usu.is_active:
+        if us is not None and us.is_active:
             request.session["carrito"] = []        
             request.session["carritox"] = []  
-            auth_login(request,usu)
+            auth_login(request,us)
             arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
             return render(request,'core/home_usu.html',arreglo)
-
+        if us.is_active:
+            request.session["carrito"] = []        
+            request.session["carritox"] = []  
+            auth_login(request,us)
+            arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
+            return render(request,'core/home_usu.html',arreglo)
 def registro(request):
     data={
         'form':CustomUserForm()
@@ -241,6 +254,8 @@ def cerrar_sesion(request):
     return HttpResponse("<script>;window.location.href='/';</script>")
 
 
-        
+######################################################################
+def isset(variable):
+	return variable in locals() or variable in globals()        
 
 
