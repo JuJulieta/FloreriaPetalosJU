@@ -58,21 +58,22 @@
                     </li>
 
                     <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'home_admin' %}">Usuarios <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{% url 'galeria_admin' %}">Galeria <span
+                                class="sr-only">(current)</span></a>
                     </li>
-                    <li>
-                        <b> Bienvenido {{ user.username }} </b>
-                    </li>
-                    <li>
-                        <a href="{% url 'social:begin' 'facebook' %}"> Login facebook</a>
-                    </li>
+
+                    
+                    
                 </ul>
 
             </div>
 
         </nav>
         <div class="text-right">
-            <a href="{% url 'login' %}" class="btn btn-outline-primary">Login</a>
+        
+            <b> Bienvenido {{ user.username }} </b>
+            
+            
             <!--MODAL PARA CERRAR LA SESION A TRAVEZ DE PREGUNTA-->
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal1">

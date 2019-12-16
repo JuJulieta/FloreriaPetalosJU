@@ -218,7 +218,7 @@ def login_inicio(request):
         if us is not None and us.is_active and us.is_staff:
             request.session["carrito"] = []        
             request.session["carritox"] = []  
-            auth_login(request,usu)
+            auth_login(request,us)
             arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
             return render(request,'core/home_admin.html',arreglo)
         if us is not None and us.is_active:
@@ -244,8 +244,8 @@ def registro(request):
             username=formulario.cleaned_data['username']
             password=formulario.cleaned_data['password1']
             user=authenticate(username=username,password=password)
-            login(request)
-            return redirect(to='HOME')
+            login(request, user)
+            return redirect(to='home')
     return render(request,'core/registro.html',data)
 
 

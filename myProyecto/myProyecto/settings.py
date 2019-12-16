@@ -32,11 +32,17 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'floreria.apps.FloreriaConfig',
     'social_django',
 ]
@@ -67,10 +73,14 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'social.apps.django_app.context_processors.backends',  #-->facebook
                 'social.apps.django_app.context_processors.login_redirect',  # -->facebook
+                'django.template.context_processors.request',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'myProyecto.wsgi.application'
 
@@ -131,6 +141,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTHENTICATION_BACKENDS=(
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.open_id.OpenIdAuth',
 )
 
 #DIRECCION URL AL MOMENTO DE LOGEARCE
@@ -139,3 +154,6 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL='/home_usu/'
 #CLAVES DE LA APLICACION FACEBOOK
 SOCIAL_AUTH_FACEBOOK_KEY='2637426526333226'
 SOCIAL_AUTH_FACEBOOK_SECRET='abb9332215b608933120ec08527e88ad'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '539886938921-1uumqjsbduftbgkfpo2qcp7qf59qpeag.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='B69nwduD67rlVEJCRBTaM3n6'

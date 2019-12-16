@@ -229,6 +229,7 @@ label {
 
 button {
   border-radius: 0;
+  
 }
 
 button:focus {
@@ -241,7 +242,7 @@ button,
 select,
 optgroup,
 textarea {
-  margin: 0;
+  margin: 15;
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
