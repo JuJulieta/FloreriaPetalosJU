@@ -51,7 +51,7 @@ def login_inicio(request):
                 auth_login(request,us)
                 arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
                 return render(request,'core/home_usu.html',arreglo)
-    
+    return render(request,'core/login.html')
 
 @login_required(login_url='/login/')
 def carrito(request):
@@ -221,7 +221,7 @@ def login(request):
                 auth_login(request,us)
                 arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
                 return render(request,'core/home_usu.html',arreglo)
-    return render(request,'core/login.html')   
+        
 def registro(request):
     data={
         'form':CustomUserForm()
