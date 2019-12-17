@@ -10,7 +10,7 @@ from .forms import CustomUserForm
 
 # CREACION DE VISTAS
 
-@login_required(login_url='/login/')
+
 def home(request):
     return render(request,'core/index.html')
 
@@ -28,7 +28,7 @@ def galeria_admin(request):
     #SE TOMAN LAS FLORES QUE SE HAYAN INGRESADO A LA LISTA 
     return render(request,'core/galeria_admin.html',{'listaFlores':flores})
    
-def login(request):
+def login_inicio(request):
     if request.POST:
         u=request.POST.get("txtUsuario")
         c=request.POST.get("txtPass")
@@ -38,26 +38,20 @@ def login(request):
         request.session["carritox"] = []
         msg=''
         print('realizado')
-        if us is not None and us.is_active and us.is_staff:
-            request.session["carrito"] = []        
-            request.session["carritox"] = []  
-            auth_login(request, us)
-            arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
-            return render(request,'core/home_admin.html',arreglo)
         if us is not None and us.is_active:
-            request.session["carrito"] = []        
-            request.session["carritox"] = []  
-            auth_login(request,us)
-            arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
-            return render(request,'core/home_usu.html',arreglo)
-        if us.is_active:
-            request.session["carrito"] = []        
-            request.session["carritox"] = []  
-            auth_login(request,us)
-            arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
-            return render(request,'core/home_usu.html',arreglo)
-
-    return render(request,'core/login.html')
+            if us.is_staff:
+                request.session["carrito"] = []        
+                request.session["carritox"] = []  
+                auth_login(request, us)
+                arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
+                return render(request,'core/home_admin.html',arreglo)
+            else:
+                request.session["carrito"] = []        
+                request.session["carritox"] = []  
+                auth_login(request,us)
+                arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
+                return render(request,'core/home_usu.html',arreglo)
+    
 
 @login_required(login_url='/login/')
 def carrito(request):
@@ -204,35 +198,30 @@ def eliminar_flor(request,id):
     #SE RETORNA A LA PAGINA QUE SE COLOCA EN EL HREF LUEGO DE REALIZAR LA ACCION
     return HttpResponse("<script> ;window.location.href='/galeria_admin/';</script>")
 
-def login_inicio(request):
+def login(request):
     if request.POST:
         u=request.POST.get("txtUsuario")
-        c=request.POST.get("txtPassword")
-         
-        #VALIDACION DEL USUARIO
+        c=request.POST.get("txtPass")
+                
         us=authenticate(request,username=u,password=c)
-        
-        msg=''
         request.session["carrito"] = []        
-        request.session["carritox"] = [] 
-        if us is not None and us.is_active and us.is_staff:
-            request.session["carrito"] = []        
-            request.session["carritox"] = []  
-            auth_login(request,us)
-            arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
-            return render(request,'core/home_admin.html',arreglo)
+        request.session["carritox"] = []
+        msg=''
+        print('realizado')
         if us is not None and us.is_active:
-            request.session["carrito"] = []        
-            request.session["carritox"] = []  
-            auth_login(request,us)
-            arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
-            return render(request,'core/home_usu.html',arreglo)
-        if us.is_active:
-            request.session["carrito"] = []        
-            request.session["carritox"] = []  
-            auth_login(request,us)
-            arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
-            return render(request,'core/home_usu.html',arreglo)
+            if us.is_staff:
+                request.session["carrito"] = []        
+                request.session["carritox"] = []  
+                auth_login(request, us)
+                arreglo={'nombre':u, 'contrasena':c, 'tipo':'administrador'}
+                return render(request,'core/home_admin.html',arreglo)
+            else:
+                request.session["carrito"] = []        
+                request.session["carritox"] = []  
+                auth_login(request,us)
+                arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
+                return render(request,'core/home_usu.html',arreglo)
+    return render(request,'core/login.html')   
 def registro(request):
     data={
         'form':CustomUserForm()
