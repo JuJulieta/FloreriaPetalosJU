@@ -24,6 +24,7 @@ urlpatterns = [
     path('',include('floreria.urls')),
     path('',include('social_django.urls',namespace='social')),
     path('accounts/', include('allauth.urls')),
+    path('', include('pwa.urls')),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,7 +31,7 @@ def galeria_admin(request):
 def login_inicio(request):
     if request.POST:
         u=request.POST.get("txtUsuario")
-        c=request.POST.get("txtPass")
+        c=request.POST.get("txtPassword")
                 
         us=authenticate(request,username=u,password=c)
         request.session["carrito"] = []        
@@ -51,7 +51,6 @@ def login_inicio(request):
                 auth_login(request,us)
                 arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
                 return render(request,'core/home_usu.html',arreglo)
-    return render(request,'core/login.html')
 
 @login_required(login_url='/login/')
 def carrito(request):
@@ -201,8 +200,7 @@ def eliminar_flor(request,id):
 def login(request):
     if request.POST:
         u=request.POST.get("txtUsuario")
-        c=request.POST.get("txtPass")
-                
+        c=request.POST.get("txtPassword")
         us=authenticate(request,username=u,password=c)
         request.session["carrito"] = []        
         request.session["carritox"] = []
@@ -221,7 +219,8 @@ def login(request):
                 auth_login(request,us)
                 arreglo={'nombre':u, 'contrasena':c, 'tipo':'cliente'}
                 return render(request,'core/home_usu.html',arreglo)
-        
+    return render(request,'core/login.html')
+
 def registro(request):
     data={
         'form':CustomUserForm()

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'floreria.apps.FloreriaConfig',
     'social_django',
-    'pwa_webpush',
+    'pwa', 
 ]
 
 MIDDLEWARE = [
@@ -161,32 +161,4 @@ SOCIAL_AUTH_FACEBOOK_SECRET='abb9332215b608933120ec08527e88ad'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '539886938921-1uumqjsbduftbgkfpo2qcp7qf59qpeag.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='B69nwduD67rlVEJCRBTaM3n6'
 
-
-PWA_APP_NAME = 'My App'
-PWA_APP_DESCRIPTION = "My app description"
-PWA_APP_THEME_COLOR = '#0A0302'
-PWA_APP_BACKGROUND_COLOR = '#ffffff'
-PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/',
-PWA_APP_ORIENTATION = 'any'
-PWA_APP_START_URL = '/'
-PWA_APP_ICONS = [
-    {
-        'src': '/static/images/my_app_icon.png',
-        'sizes': '160x160'
-    }
-]
-PWA_APP_SPLASH_SCREEN = [
-    {
-        'src': '/static/images/icons/splash-640x1136.png',
-        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
-    }
-]
-PWA_APP_DIR = 'ltr'
-PWA_APP_LANG = 'en-US'
-
-WEBPUSH_SETTINGS = {
-    "VAPID_PUBLIC_KEY": "Vapid Public Key",
-    "VAPID_PRIVATE_KEY":"Vapid Private Key",
-    "VAPID_ADMIN_EMAIL": "admin@example.com"
-}
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
