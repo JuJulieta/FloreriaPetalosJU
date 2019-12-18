@@ -52,11 +52,31 @@
 
             messaging.requestPermission()
             .then(function(){
-                console.log("el usuario no ha aceptado recibir notificaciones")
+                console.log("el usuario ha aceptado recibir notificaciones")
+
+                return messaging.getToken();
+
             })
+            .then(function(token){
+                console.log(token);
+            })
+
             .catch(function(e){
                 console.log("el usuario no ha aceptado")
             })
+
+        })
+
+        messaging.onMessage(function(payload){
+
+            let title = 'titulo de la notificacion';
+
+            let options = {
+                body:'este es el mensaje',
+                icon: '/static/core/img/logo-floreria.png'
+            }
+
+            let mensaje = new Notification(title, options);
 
         })
     </script>

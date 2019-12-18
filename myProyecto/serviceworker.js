@@ -59,3 +59,35 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
+//codigo para notificaciones push
+
+importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
+
+var firebaseConfig = {
+  apiKey: "AIzaSyCWK6nju5QShdQVtv955jKCg0p2rY0tntk",
+  authDomain: "floreriapetalos-161a3.firebaseapp.com",
+  databaseURL: "https://floreriapetalos-161a3.firebaseio.com",
+  projectId: "floreriapetalos-161a3",
+  storageBucket: "floreriapetalos-161a3.appspot.com",
+  messagingSenderId: "410885916020",
+  appId: "1:410885916020:web:e7561e888a069e64071821"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+let messaging = firebase.messaging();
+
+messaging.setBackgroundMessageHandler(function(payload){
+
+  let title = 'titulo de la notificacion';
+
+  let options = {
+      body:'este es el mensaje',
+      icon: '/static/core/img/logo-floreria.png'
+  }
+
+  self.registration.showNotification(title, options);
+
+
+});

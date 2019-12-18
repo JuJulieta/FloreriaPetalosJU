@@ -232,9 +232,9 @@ def registro(request):
             username=formulario.cleaned_data['username']
             password=formulario.cleaned_data['password1']
             user=authenticate(username=username,password=password)
-            login(request, user)
-            return redirect(to='home')
-    return render(request,'core/registro.html',data)
+            login(request)
+            return render(request,'core/login.html',data)
+    return render(request,'core/registro.html',data)   
 
 
 def cerrar_sesion(request):
