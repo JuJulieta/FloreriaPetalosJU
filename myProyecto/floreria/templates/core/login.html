@@ -50,13 +50,18 @@
 
 
         <div class="container">
-                <h1>Login Administrador</h1>
+                <h1>Login Principal</h1>
                 
                 <form name="formulario" class="needs-validation" id="formulario" action="{% url 'login_inicio' %}" method="POST"
                     enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
+                    <br>
+                    <a href="{% url 'social:begin' 'facebook' %}" role="button" class="btn btn-primary btn-lg" style="width: 172px; margin-right: 16px;"> Facebook </a>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" role="button" class="btn btn-danger btn-lg" style="width: 172px;">Google+</a>
+
                     <div class="form-row">
                         <div class="col-md-4 mb-3">
+                            <br>
                             <label for="validationCustom01">Nombre Usuario</label>
                             <input type="text" class="form-control" id="txtUsuario" name="txtUsuario" placeholder="Usuario"
                                 required>
@@ -75,8 +80,12 @@
                             </div>
                         </div>
                     </div>
-            
+                    <br>
+                    
+                    <!--<button class="btn btn-outline-dark btn-lg" type="submit" style="width: 300px; margin-left: 30px;">Iniciar Sesion</button>-->
                     <button class="btn btn-primary" type="submit">Iniciar Sesion</button>
+                    <br>
+                    <br>
                     <p><a href="{% url 'registro' %}" class="text-muted">¿No posee una cuenta? Haga click aqui para registrarse</a></p>
                     <hr>
                 </form>
@@ -102,6 +111,7 @@
             </script>
                 
             </div>
+            
         {% endblock contenido %}
     </section>
 

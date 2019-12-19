@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -32,12 +31,20 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'floreria.apps.FloreriaConfig',
+    'social_django',
+    'pwa', 
 ]
 
 MIDDLEWARE = [
@@ -48,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'myProyecto.urls'
@@ -63,10 +71,16 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',  #-->facebook
+                'social.apps.django_app.context_processors.login_redirect',  # -->facebook
+                'django.template.context_processors.request',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'myProyecto.wsgi.application'
 
@@ -122,3 +136,29 @@ STATIC_URL = '/static/'
 
 MEDIA_URL= '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+#DEFINICION DE LOS MODELOS INTERNOS DE AUTENTICACION
+AUTHENTICATION_BACKENDS=(
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.open_id.OpenIdAuth',
+)
+
+#DIRECCION URL AL MOMENTO DE LOGEARCE
+SOCIAL_AUTH_LOGIN_REDIRECT_URL='/home_usu/'
+
+#CLAVES DE LA APLICACION FACEBOOK
+SOCIAL_AUTH_FACEBOOK_KEY='2637426526333226'
+SOCIAL_AUTH_FACEBOOK_SECRET='abb9332215b608933120ec08527e88ad'
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '539886938921-1uumqjsbduftbgkfpo2qcp7qf59qpeag.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET ='B69nwduD67rlVEJCRBTaM3n6'
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'serviceworker.js')
